@@ -4,9 +4,15 @@ import { Repository } from 'typeorm';
 import { Parqueo } from './parqueo.entity';
 
 @Injectable()
-export class ParqueosService {
+export class ParqueoService {
   constructor(
     @InjectRepository(Parqueo)
-    private parqueosRepository: Repository<Parqueo>,
+    private readonly parqueoRepository: Repository<Parqueo>,
   ) {}
+
+  async findAll(): Promise<Parqueo[]> {
+    return this.parqueoRepository.find();
+  }
+
+  // Aquí se agregarán los demás métodos del CRUD (create, findOne, update, delete)
 }

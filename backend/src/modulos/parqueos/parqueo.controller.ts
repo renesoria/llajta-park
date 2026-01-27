@@ -1,7 +1,14 @@
-import { Controller } from '@nestjs/common';
-import { ParqueosService } from './parqueo.service';
+import { Controller, Get } from '@nestjs/common';
+import { ParqueoService } from './parqueo.service';
 
 @Controller('parqueos')
-export class ParqueosController {
-  constructor(private readonly parqueosService: ParqueosService) {}
+export class ParqueoController {
+  constructor(private readonly parqueoService: ParqueoService) {}
+
+  @Get()
+  findAll() {
+    return this.parqueoService.findAll();
+  }
+
+  // Aquí se agregarán los demás endpoints del CRUD
 }
