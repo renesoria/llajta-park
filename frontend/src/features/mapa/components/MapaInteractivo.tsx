@@ -4,6 +4,7 @@ import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet';
 import 'leaflet/dist/leaflet.css';
 import { Parqueo } from '@/types';
 import L from 'leaflet';
+import { useRouter } from 'next/navigation';
 
 // Icono personalizado para Leaflet
 const icon = L.icon({
@@ -20,8 +21,13 @@ interface MapaProps {
 }
 
 export default function MapaInteractivo({ parqueos }: MapaProps) {
+  const router = useRouter();
   // Centro aproximado de Cochabamba
   const centroCochabamba: [number, number] = [-17.3938, -66.1575];
+
+  const handleReserveClick = () => {
+    router.push('/reservas');
+  };
 
   return (
     <div className="h-full w-full bg-gray-100 z-0">
@@ -48,7 +54,10 @@ export default function MapaInteractivo({ parqueos }: MapaProps) {
                 <p className="text-xs text-gray-600 my-1">{parqueo.direccion}</p>
                 <div className="flex justify-between items-center mt-2">
                     <span className="text-xs font-bold bg-gray-100 px-2 py-1 rounded">{parqueo.precioHora} Bs/h</span>
-                    <button className="text-xs bg-blue-600 text-white px-2 py-1 rounded hover:bg-blue-700">
+                    <button 
+                      onClick={handleReserveClick}
+                      className="text-xs bg-blue-600 text-white px-2 py-1 rounded hover:bg-blue-700"
+                    >
                         Reservar
                     </button>
                 </div>

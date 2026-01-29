@@ -1,5 +1,6 @@
 import { Parqueo } from '@/types';
 import { Car, Bike, Star } from 'lucide-react';
+import { useRouter } from 'next/navigation';
 
 interface Props {
   parqueo: Parqueo;
@@ -7,29 +8,41 @@ interface Props {
 }
 
 export default function ParkingCard({ parqueo, onSelect }: Props) {
+  const router = useRouter();
   const rating = parqueo.rating || 5;
 
+  const handleReserveClick = () => {
+    router.push('/reservas');
+  };
+
   return (
-    // Ajusté el hover del fondo para que sea un tono muy suave de tu color
-    <div className="bg-white p-3 border-b border-gray-300 flex gap-3 hover:bg-[#009FE3]/5 transition group">
+    <div className="bg-white p-3 border-b border-gray-300 flex gap-3 hover:bg-blue-50/30 transition group">
       
+      {/* Imagen miniatura */}
       <div className="w-24 h-24 bg-slate-700 rounded-md flex-shrink-0 flex items-center justify-center text-white text-xs text-center p-1">
          <span>Foto</span>
       </div>
 
+      {/* Información */}
       <div className="flex-1 flex flex-col justify-between">
         <div>
-            {/* CAMBIO AQUÍ: Hover del texto y color del subrayado */}
+            {/* TÍTULO CLICABLE (Este SÍ abre el modal) */}
             <h3 
                 onClick={() => onSelect(parqueo)} 
-                className="font-bold text-slate-900 text-sm mb-0.5 cursor-pointer hover:text-[#009FE3] hover:underline decoration-[#009FE3] underline-offset-2 transition-colors"
+                className="font-bold text-slate-900 text-sm mb-0.5 cursor-pointer hover:text-blue-600 hover:underline decoration-blue-600 underline-offset-2 transition-colors"
             >
                 {parqueo.nombre}
             </h3>
 
+            {/* ESTRELLAS EN LA SIDEBAR (Nuevo) */}
             <div className="flex gap-0.5 mb-2">
                 {[...Array(5)].map((_, i) => (
-                    <Star key={i} size={10} fill={i < rating ? "#facc15" : "none"} className={i < rating ? "text-yellow-400" : "text-gray-300"} />
+                    <Star 
+                        key={i} 
+                        size={10} 
+                        fill={i < rating ? "#facc15" : "none"} // Relleno amarillo
+                        className={i < rating ? "text-yellow-400" : "text-gray-300"} 
+                    />
                 ))}
             </div>
             
@@ -37,6 +50,7 @@ export default function ParkingCard({ parqueo, onSelect }: Props) {
                 ESPACIOS DISPONIBLES
             </p>
 
+            {/* Contadores */}
             <div className="flex items-center gap-4 mb-2">
                 <div className="flex flex-col">
                     <span className="text-[10px] text-gray-400 font-bold uppercase">AUTOS</span>
@@ -54,10 +68,11 @@ export default function ParkingCard({ parqueo, onSelect }: Props) {
             </div>
         </div>
 
+        {/* Botón Reservar (CON ACCIÓN ONCLICK) */}
         <div className="flex justify-end">
-            {/* CAMBIO AQUÍ: Fondo del botón */}
             <button 
-                className="bg-[#009FE3] text-white text-xs font-bold py-1.5 px-4 rounded hover:bg-[#008ac7] transition shadow-sm cursor-default"
+                onClick={handleReserveClick}
+                className="bg-[#009FE3] text-white text-xs font-bold py-1.5 px-4 rounded hover:bg-[#008ac7] transition shadow-sm cursor-pointer"
             >
                 Reservar
             </button>
