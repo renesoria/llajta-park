@@ -1,20 +1,38 @@
 import { Module } from '@nestjs/common';
+import { ConfigModule, ConfigService } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
-import { typeOrmConfig } from './config/typeorm.config';
 import { AuthModule } from './modulos/auth/auth.module';
 import { UsuariosModule } from './modulos/usuarios/usuario.module';
 import { ParqueosModule } from './modulos/parqueos/parqueo.module';
 import { ReservasModule } from './modulos/reservas/reserva.module';
+import { VehiculosModule } from './modulos/vehiculos/vehiculo.module';
 
 @Module({
   imports: [
-    TypeOrmModule.forRoot(typeOrmConfig),
+    ConfigModule.forRoot({
+      isGlobal: true,
+    }),
+    TypeOrmModule.forRootAsync({
+      imports: [ConfigModule],
+      inject: [ConfigService],
+      useFactory: (configService: ConfigService) => ({
+        type: 'mysql',
+        host: configService.get<string>('DATABASE_HOST'),
+        port: configService.get<number>('DATABASE_PORT'),
+        username: configService.get<string>('DATABASE_USERNAME'),
+        password: configService.get<string>('DATABASE_PASSWORD'),
+        database: configService.get<string>('DATABASE_NAME'),
+        entities: [__dirname + '/**/*.entity{.ts,.js}'],
+        synchronize: true,
+      }),
+    }),
     AuthModule,
     UsuariosModule,
     ParqueosModule,
     ReservasModule,
+    VehiculosModule,
   ],
   controllers: [AppController],
   providers: [AppService],

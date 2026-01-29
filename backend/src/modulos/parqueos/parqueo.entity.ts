@@ -1,6 +1,15 @@
-import { Entity, PrimaryGeneratedColumn, Column } from 'typeorm';
+import {
+  Entity,
+  PrimaryGeneratedColumn,
+  Column,
+  ManyToOne,
+  JoinColumn,
+  OneToMany,
+} from 'typeorm';
+import { Usuario } from '../usuarios/usuario.entity';
+import { Reserva } from '../reservas/reserva.entity';
 
-@Entity()
+@Entity({ name: 'parkings' })
 export class Parqueo {
   @PrimaryGeneratedColumn('uuid')
   id: string;
@@ -9,11 +18,36 @@ export class Parqueo {
   nombre: string;
 
   @Column()
-  ubicacion: string;
+  direccion: string;
+
+  @Column('decimal', { precision: 10, scale: 6 })
+  latitud: number;
+
+  @Column('decimal', { precision: 10, scale: 6 })
+  longitud: number;
 
   @Column('int')
-  capacidad: number;
+  capacidadTotal: number;
 
-  @Column('decimal')
+  @Column('int', { default: 0 })
+  ocupadosManual: number;
+
+  @Column('decimal', { precision: 10, scale: 2 })
   precioHora: number;
+
+  @Column({ nullable: true })
+  imagenUrl: string;
+
+  @Column({ default: false })
+  esAprobado: boolean;
+
+  @ManyToOne(() => Usuario, (usuario) => usuario.parqueos)
+  @JoinColumn({ name: 'duenoId' })
+  dueno: Usuario;
+
+  @Column()
+  duenoId: string;
+
+  @OneToMany(() => Reserva, (reserva) => reserva.parqueo)
+  reservas: Reserva[];
 }
