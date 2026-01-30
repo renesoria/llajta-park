@@ -20,10 +20,10 @@ export class Parqueo {
   @Column()
   direccion: string;
 
-  @Column('decimal', { precision: 10, scale: 6 })
+  @Column({ type: 'decimal', precision: 10, scale: 7 })
   latitud: number;
 
-  @Column('decimal', { precision: 10, scale: 6 })
+  @Column({ type: 'decimal', precision: 10, scale: 7 })
   longitud: number;
 
   @Column('int')
@@ -32,7 +32,7 @@ export class Parqueo {
   @Column('int', { default: 0 })
   ocupadosManual: number;
 
-  @Column('decimal', { precision: 10, scale: 2 })
+  @Column({ type: 'decimal', precision: 10, scale: 2 })
   precioHora: number;
 
   @Column({ nullable: true })

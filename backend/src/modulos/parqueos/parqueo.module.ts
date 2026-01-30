@@ -1,12 +1,12 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { Parqueo } from './parqueo.entity';
-import { ParqueosController } from './parqueo.controller';
-import { ParqueosService } from './parqueo.service';
+import { ParqueoController } from './parqueo.controller';
+import { ParqueoService } from './parqueo.service';
 
 @Module({
   imports: [TypeOrmModule.forFeature([Parqueo])],
-  controllers: [ParqueosController],
-  providers: [ParqueosService],
+  controllers: [ParqueoController],
+  providers: [ParqueoService],
 })
-export class ParqueosModule {}
+export class ParqueoModule {}

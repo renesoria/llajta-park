@@ -5,7 +5,7 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { AuthModule } from './modulos/auth/auth.module';
 import { UsuariosModule } from './modulos/usuarios/usuario.module';
-import { ParqueosModule } from './modulos/parqueos/parqueo.module';
+import { ParqueoModule } from './modulos/parqueos/parqueo.module';
 import { ReservasModule } from './modulos/reservas/reserva.module';
 import { VehiculosModule } from './modulos/vehiculos/vehiculo.module';
 
@@ -30,7 +30,7 @@ import { VehiculosModule } from './modulos/vehiculos/vehiculo.module';
     }),
     AuthModule,
     UsuariosModule,
-    ParqueosModule,
+    ParqueoModule,
     ReservasModule,
     VehiculosModule,
   ],

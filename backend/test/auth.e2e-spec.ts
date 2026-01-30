@@ -4,7 +4,6 @@ import { INestApplication, ValidationPipe } from '@nestjs/common';
 import { Response } from 'supertest';
 import { AppModule } from '../src/app.module';
 import { DataSource } from 'typeorm';
-import { Usuario } from '../src/modulos/usuarios/usuario.entity';
 
 interface AuthResponse {
   access_token: string;
@@ -43,7 +42,7 @@ describe('AuthController (e2e)', () => {
       }),
     );
     await app.init();
-    request = supertest(app.getHttpServer() as any);
+    request = supertest(app.getHttpServer());
     dataSource = moduleFixture.get(DataSource);
   }, 20000);
 

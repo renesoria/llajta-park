@@ -123,3 +123,15 @@
     @apply bg-background text-foreground;
   }
 }
+
+/* Personalización de la barra de scroll */
+.scrollbar-thin::-webkit-scrollbar {
+  width: 6px;
+}
+.scrollbar-thin::-webkit-scrollbar-track {
+  background: transparent;
+}
+.scrollbar-thin::-webkit-scrollbar-thumb {
+  background-color: #cbd5e1; /* gray-300 */
+  border-radius: 20px;
+}

@@ -1,4 +1,3 @@
-global.crypto = require('crypto');
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import { ValidationPipe } from '@nestjs/common';
@@ -16,6 +15,8 @@ async function bootstrap() {
       forbidNonWhitelisted: true,
     }),
   );
-  await app.listen(process.env.PORT ?? 3001); // Puerto 3001
+  const port = process.env.PORT ?? 3001;
+  await app.listen(port);
+  console.log(`Aplicación NestJS ejecutándose en el puerto ${port}`);
 }
 void bootstrap();
