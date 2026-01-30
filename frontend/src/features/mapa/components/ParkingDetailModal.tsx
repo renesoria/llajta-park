@@ -1,5 +1,5 @@
 import { Parqueo } from '@/types';
-import { X, Car, Bike } from 'lucide-react';
+import { X, Star, Car, Bike } from 'lucide-react';
 import StarRating from './StarRating';
 
 interface Props {
@@ -8,7 +8,6 @@ interface Props {
 }
 
 export default function ParkingDetailModal({ parqueo, onClose }: Props) {
-  
   return (
     <div className="fixed inset-0 z-[100] flex items-center justify-center bg-black/60 backdrop-blur-sm p-4 animate-in fade-in duration-200">
       
@@ -38,7 +37,7 @@ export default function ParkingDetailModal({ parqueo, onClose }: Props) {
             </div>
 
             <p className="text-sm text-gray-600 leading-relaxed mb-6 text-justify">
-                {parqueo.descripcion || "Este parqueo ofrece una solución práctica y segura para el estacionamiento de vehículos. Cuenta con espacios amplios, fácil acceso y vigilancia, pensado para brindar comodidad a los conductores."}
+                {"Este parqueo ofrece una solución práctica y segura para el estacionamiento de vehículos. Cuenta con espacios amplios, fácil acceso y vigilancia, pensado para brindar comodidad a los conductores."}
             </p>
 
             {/* DETALLES RÁPIDOS (MODIFICADO) */}
@@ -51,7 +50,14 @@ export default function ParkingDetailModal({ parqueo, onClose }: Props) {
                 <div className="h-4 w-px bg-gray-300"></div> {/* Separador visual */}
 
                 <div className="flex items-center gap-1 text-green-700">
-                    <Car size={14} /> {parqueo.capacidadTotal - parqueo.ocupadosManual} Autos
+                    <Car size={14} /> {parqueo.capacidadAutos - parqueo.ocupadosAutos} Autos
+                </div>
+                
+                <div className="h-4 w-px bg-gray-300"></div> {/* Separador visual */}
+                
+                {/* AQUÍ ESTÁ LO NUEVO: MOTOS */}
+                <div className="flex items-center gap-1 text-blue-700">
+                    <Bike size={14} /> {parqueo.capacidadMotos - parqueo.ocupadosMotos} Motos
                 </div>
             </div>
 

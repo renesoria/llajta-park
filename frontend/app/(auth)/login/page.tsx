@@ -4,6 +4,8 @@ import { useForm } from "react-hook-form"
 import { useRouter } from "next/navigation"
 import Image from "next/image"
 import Link from "next/link"
+import api from "@/lib/axios"
+import { useUser } from "@/context/UserContext" // Importamos useUser
 import { Input } from "@/components/ui/input"
 import { Button } from "@/components/ui/button"
 import { Label } from "@/components/ui/label"
@@ -17,30 +19,28 @@ export default function LoginPage() {
   const { register, handleSubmit } = useForm<LoginFormInputs>()
   const router = useRouter()
   const [error, setError] = useState("")
+  const { loginUser } = useUser(); // Usamos el hook useUser
 
   const onSubmit = async (data: LoginFormInputs) => {
     setError("")
     try {
-      const res = await fetch('http://localhost:3001/auth/login', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(data),
-      })
+      const res = await api.post('/auth/login', data);
 
-      if (!res.ok) throw new Error("Credenciales inválidas")
+      if (res.status !== 201 && res.status !== 200) throw new Error("Credenciales inválidas")
       
-      const result = await res.json()
-      // Aquí podrías guardar el token si lo tuvieras:
-      console.log("Access Token:", result.access_token);
-      console.log("User Data:", result.user);
+      const result = res.data;
+      loginUser(result.user, result.access_token); // Almacenamos el usuario y token usando el contexto
 
-      alert("¡Bienvenido!")
-      router.push('/dashboard') // O a donde quieras ir después de login
-    } catch (_err) { // Let TypeScript infer `unknown` or explicitly type as `Error` if certain
-      if (_err instanceof Error) {
-        setError(_err.message);
-      } else {
+      router.push('/inicio') // Redirige a la página del mapa
+    } catch (err: any) { // Type as `any` for easier access to response properties
+      if (err.response && err.response.status === 401) {
         setError("Email o contraseña incorrectos.");
+      } else if (err.response && err.response.data && err.response.data.message) {
+        setError(err.response.data.message);
+      } else if (err instanceof Error) {
+        setError(err.message);
+      } else {
+        setError("Ocurrió un error inesperado al iniciar sesión.");
       }
     }
   }

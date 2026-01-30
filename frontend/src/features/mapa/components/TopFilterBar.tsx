@@ -1,7 +1,11 @@
+"use client"
 import { User } from 'lucide-react';
 import Image from 'next/image';
+import { useUser } from '@/context/UserContext'; // Importamos useUser
 
 export default function TopFilterBar() {
+  const { user } = useUser(); // Obtenemos el usuario del contexto
+
   return (
     // CAMBIO AQUÍ: bg-[#009FE3]
     <div className="w-full h-16 bg-[#009FE3] flex items-center justify-between px-6 shadow-md z-50 flex-shrink-0">
@@ -46,7 +50,7 @@ export default function TopFilterBar() {
         <div className="bg-white/20 p-1.5 rounded-full">
             <User size={20} className="text-white" />
         </div>
-        <span className="font-medium text-sm">user</span>
+        <span className="font-medium text-sm">{user ? user.nombreCompleto : 'User'}</span>
       </div>
 
     </div>

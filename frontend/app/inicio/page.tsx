@@ -19,7 +19,7 @@ const MapaInteractivo = dynamic(
 
 export default function InicioPage() {
   const [parqueos, setParqueos] = useState<Parqueo[]>([]);
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(true); // Inicialmente cargando para la petición real
   const [selectedParking, setSelectedParking] = useState<Parqueo | null>(null);
   const [filtros, setFiltros] = useState({ autos: false, motos: false });
 
@@ -31,19 +31,17 @@ export default function InicioPage() {
         setParqueos(response.data);
       } catch (error) {
         console.error('Error al obtener los parqueos:', error);
-        // Opcional: manejar el estado de error en la UI
       } finally {
         setLoading(false);
       }
     };
-
     fetchParqueos();
   }, []);
-
+  
   const handleFilterChange = (filterType: 'autos' | 'motos') => {
     setFiltros(prev => ({ ...prev, [filterType]: !prev[filterType] }));
   };
-  
+
   const filteredParqueos = parqueos.filter(p => {
     const hasCarSpace = p.capacidadAutos - p.ocupadosAutos > 0;
     const hasMotoSpace = p.capacidadMotos - p.ocupadosMotos > 0;
@@ -63,7 +61,6 @@ export default function InicioPage() {
   return (
     <main className="h-screen w-screen flex flex-col bg-white overflow-hidden relative">
         
-        {/* MODAL EMERGENTE (Conecta con /reservas) */}
         {selectedParking && (
             <ParkingDetailModal 
                 parqueo={selectedParking} 
@@ -71,13 +68,10 @@ export default function InicioPage() {
             />
         )}
 
-        {/* BARRA SUPERIOR AZUL */}
         <TopFilterBar />
 
-        {/* CONTENIDO PRINCIPAL DIVIDIDO */}
         <div className="flex-1 flex overflow-hidden relative">
             
-            {/* SIDEBAR IZQUIERDA */}
             <aside className="w-[380px] h-full shadow-xl z-10 flex-shrink-0 relative bg-white">
                <ParkingListSidebar 
                   parqueos={filteredParqueos} 
@@ -88,7 +82,6 @@ export default function InicioPage() {
                />
             </aside>
 
-            {/* MAPA DERECHA */}
             <section className="flex-1 h-full relative z-0 bg-gray-100">
                 <div className="absolute inset-0 w-full h-full">
                     <MapaInteractivo parqueos={filteredParqueos} />

@@ -43,13 +43,14 @@ export default function ParkingCard({ parqueo, onSelect }: Props) {
 
             {/* Contadores */}
             <div className="flex items-center gap-4 mb-2">
+                {/* Autos */}
                 <div className="flex flex-col">
                     <span className="text-[10px] text-gray-400 font-bold uppercase">AUTOS</span>
                     <span className="text-sm font-bold text-green-600 flex items-center gap-1">
                         <Car size={14} className="text-slate-400"/> {parqueo.capacidadAutos - parqueo.ocupadosAutos}
                     </span>
                 </div>
-                <div className="h-6 w-px bg-gray-200"></div>
+                {/* Motos */}
                 <div className="flex flex-col">
                     <span className="text-[10px] text-gray-400 font-bold uppercase">MOTOS</span>
                     <span className="text-sm font-bold text-green-600 flex items-center gap-1">

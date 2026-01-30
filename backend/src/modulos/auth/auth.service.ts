@@ -63,7 +63,7 @@ export class AuthService {
       access_token: this.jwtService.sign(payload),
       user: {
         id: user.id,
-        nombre: user.nombreCompleto,
+        nombreCompleto: user.nombreCompleto,
         rol: user.rol,
         email: user.email, // Add email here
       },

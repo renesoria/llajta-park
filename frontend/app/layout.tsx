@@ -12,6 +12,8 @@ const geistMono = Geist_Mono({
   subsets: ["latin"],
 });
 
+import { UserProvider } from "@/context/UserContext"; // Importar UserProvider
+
 export const metadata: Metadata = {
   title: "Llajta Park", // Cambiado para reflejar el proyecto
   description: "Plataforma de gestión de parqueos híbrida para Cochabamba", // Cambiado para reflejar el proyecto
@@ -26,7 +28,9 @@ export default function RootLayout({
     <html lang="es"><body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
-        {children}
+        <UserProvider>
+          {children}
+        </UserProvider>
       </body>
     </html>
   );

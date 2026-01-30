@@ -4,6 +4,8 @@ import { useForm } from "react-hook-form"
 import { useRouter } from "next/navigation"
 import Image from "next/image"
 import Link from "next/link"
+import api from "@/lib/axios" // Importamos la instancia de axios
+import { useUser } from "@/context/UserContext" // Importamos useUser
 import { Input } from "@/components/ui/input"
 import { Button } from "@/components/ui/button"
 import { Label } from "@/components/ui/label"
@@ -20,6 +22,7 @@ export default function RegisterPage() {
   const { register, handleSubmit } = useForm<RegisterFormInputs>()
   const router = useRouter()
   const [error, setError] = useState("")
+  const { loginUser } = useUser(); // Usamos el hook useUser
 
   const onSubmit = async (data: RegisterFormInputs) => {
     setError("")
@@ -30,26 +33,27 @@ export default function RegisterPage() {
     }
 
     try {
-      const res = await fetch('http://localhost:3001/auth/register', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          nombreCompleto: data.nombreCompleto,
-          email: data.email,
-          telefono: data.telefono,
-          password: data.password
-        }),
-      })
-
-      if (!res.ok) throw new Error("Error al registrarse")
+      // Usar la instancia de axios
+      const res = await api.post('/auth/register', {
+        nombreCompleto: data.nombreCompleto,
+        email: data.email,
+        telefono: data.telefono,
+        password: data.password
+      });
       
-      alert("¡Cuenta creada! Ahora inicia sesión.")
-      router.push('/login')
-    } catch (_err) { // Let TypeScript infer `unknown` or explicitly type as `Error` if certain
-      if (_err instanceof Error) {
-        setError(_err.message);
+      const result = res.data;
+      loginUser(result.user, result.access_token); // Almacenamos el usuario y token usando el contexto
+
+      router.push('/inicio') // Redirige directamente a la página principal
+    } catch (err: any) { // Type as `any` for easier access to response properties
+      if (err.response && err.response.status === 409) { // Conflict, user already exists
+        setError("El email ya está registrado.");
+      } else if (err.response && err.response.data && err.response.data.message) {
+        setError(err.response.data.message);
+      } else if (err instanceof Error) {
+        setError(err.message);
       } else {
-        setError("Error al conectar con el servidor.");
+        setError("Ocurrió un error inesperado al registrarse.");
       }
     }
   }

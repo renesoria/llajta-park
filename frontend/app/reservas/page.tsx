@@ -8,16 +8,26 @@ export default function ReservasPage() {
   const router = useRouter();
 
   return (
+    // FONDO: Usamos un div fijo con la imagen de fondo oscurecida
     <main className="min-h-screen w-full relative bg-slate-900 flex flex-col items-center justify-center p-6">
-        
+
+        {/* Imagen de fondo (Simulada, asegúrate de tener una imagen o usar un color sólido oscuro) */}
         {/* IMAGEN DE FONDO */}
         <div className="absolute inset-0 z-0 opacity-40">
+            {/* Si tienes una imagen de ciudad, ponla aquí en src */}
+            <Image 
+                src="/fondo-ciudad.jpg" 
+                alt="Background" 
+                fill 
+                className="object-cover"
+                priority
+            />
             {/* Si no tienes la imagen fondo-ciudad.jpg, esto mostrará un fondo oscuro elegante */}
             <div className="absolute inset-0 bg-gradient-to-br from-slate-900 via-blue-950 to-slate-900"></div>
             {/* Descomenta la siguiente línea si ya pusiste la imagen en public/ */}
             {/* <Image src="/fondo-ciudad.jpg" alt="Fondo" fill className="object-cover" /> */}
         </div>
-        
+
         {/* HEADER: NAVEGACIÓN */}
         <div className="absolute top-0 left-0 w-full p-6 flex justify-between items-center z-10">
              
@@ -34,12 +44,12 @@ export default function ReservasPage() {
              
              {/* Avatar Usuario */}
              <div className="w-10 h-10 rounded-full bg-pink-500 overflow-hidden border-2 border-white/50 shadow-lg">
-                <Image src="https://api.dicebear.com/7.x/avataaars/svg?seed=Felix" alt="User" width={40} height={40} />
+                <img src="https://api.dicebear.com/7.x/avataaars/svg?seed=Felix" alt="User" />
              </div>
         </div>
 
         {/* CONTENEDOR CENTRAL */}
-        <div className="relative z-10 w-full max-w-5xl grid grid-cols-1 md:grid-cols-2 gap-8 items-start animate-in fade-in zoom-in-95 duration-500">
+        <div className="relative z-10 w-full max_width-5xl grid grid-cols-1 md:grid-cols-2 gap-8 items-start animate-in fade-in zoom-in-95 duration-500">
             
             {/* --- COLUMNA IZQUIERDA (Formularios) --- */}
             <div className="flex flex-col gap-6">
