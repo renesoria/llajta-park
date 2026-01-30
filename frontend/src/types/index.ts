@@ -4,12 +4,14 @@ export interface Parqueo {
   direccion: string;
   latitud: number;
   longitud: number;
-  capacidadTotal: number;
   precioHora: number;
-  autosLibres: number;
-  motosLibres: number;
-  imagenUrl?: string;
-  // CAMPOS NUEVOS PARA EL MODAL
+  esAprobado: boolean;
+  duenoId: string;
+  capacidadAutos: number;
+  capacidadMotos: number;
+  ocupadosAutos: number;
+  ocupadosMotos: number;
   descripcion?: string;
-  rating?: number; // De 1 a 5
+  rating?: number;
+  imagenUrl?: string;
 }

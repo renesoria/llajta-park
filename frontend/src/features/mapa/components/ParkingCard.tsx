@@ -1,6 +1,7 @@
 import { Parqueo } from '@/types';
-import { Car, Bike, Star } from 'lucide-react';
+import { Car, Bike } from 'lucide-react';
 import { useRouter } from 'next/navigation';
+import StarRating from './StarRating';
 
 interface Props {
   parqueo: Parqueo;
@@ -9,7 +10,6 @@ interface Props {
 
 export default function ParkingCard({ parqueo, onSelect }: Props) {
   const router = useRouter();
-  const rating = parqueo.rating || 5;
 
   const handleReserveClick = () => {
     router.push('/reservas');
@@ -35,16 +35,7 @@ export default function ParkingCard({ parqueo, onSelect }: Props) {
             </h3>
 
             {/* ESTRELLAS EN LA SIDEBAR (Nuevo) */}
-            <div className="flex gap-0.5 mb-2">
-                {[...Array(5)].map((_, i) => (
-                    <Star 
-                        key={i} 
-                        size={10} 
-                        fill={i < rating ? "#facc15" : "none"} // Relleno amarillo
-                        className={i < rating ? "text-yellow-400" : "text-gray-300"} 
-                    />
-                ))}
-            </div>
+            <StarRating rating={parqueo.rating || 0} />
             
             <p className="text-[10px] text-gray-500 font-bold uppercase tracking-tighter mb-1">
                 ESPACIOS DISPONIBLES
@@ -55,14 +46,14 @@ export default function ParkingCard({ parqueo, onSelect }: Props) {
                 <div className="flex flex-col">
                     <span className="text-[10px] text-gray-400 font-bold uppercase">AUTOS</span>
                     <span className="text-sm font-bold text-green-600 flex items-center gap-1">
-                        <Car size={14} className="text-slate-400"/> {parqueo.autosLibres}
+                        <Car size={14} className="text-slate-400"/> {parqueo.capacidadAutos - parqueo.ocupadosAutos}
                     </span>
                 </div>
                 <div className="h-6 w-px bg-gray-200"></div>
                 <div className="flex flex-col">
                     <span className="text-[10px] text-gray-400 font-bold uppercase">MOTOS</span>
                     <span className="text-sm font-bold text-green-600 flex items-center gap-1">
-                        <Bike size={14} className="text-slate-400"/> {parqueo.motosLibres}
+                        <Bike size={14} className="text-slate-400"/> {parqueo.capacidadMotos - parqueo.ocupadosMotos}
                     </span>
                 </div>
             </div>

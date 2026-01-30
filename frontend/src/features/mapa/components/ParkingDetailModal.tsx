@@ -1,5 +1,6 @@
 import { Parqueo } from '@/types';
-import { X, Star, Car, Bike } from 'lucide-react'; // Importamos Bike
+import { X, Star, Car, Bike } from 'lucide-react';
+import StarRating from './StarRating';
 
 interface Props {
   parqueo: Parqueo;
@@ -7,7 +8,6 @@ interface Props {
 }
 
 export default function ParkingDetailModal({ parqueo, onClose }: Props) {
-  const rating = parqueo.rating || 5;
   
   return (
     <div className="fixed inset-0 z-[100] flex items-center justify-center bg-black/60 backdrop-blur-sm p-4 animate-in fade-in duration-200">
@@ -34,11 +34,7 @@ export default function ParkingDetailModal({ parqueo, onClose }: Props) {
             {/* Título y Estrellas */}
             <div className="flex justify-between items-start mb-4">
                 <h2 className="text-xl font-extrabold text-slate-900">{parqueo.nombre}</h2>
-                <div className="flex gap-0.5 text-yellow-400">
-                    {[...Array(5)].map((_, i) => (
-                        <Star key={i} size={16} fill={i < rating ? "currentColor" : "none"} className={i < rating ? "" : "text-gray-300"} />
-                    ))}
-                </div>
+                <StarRating rating={parqueo.rating || 0} />
             </div>
 
             <p className="text-sm text-gray-600 leading-relaxed mb-6 text-justify">
@@ -46,7 +42,6 @@ export default function ParkingDetailModal({ parqueo, onClose }: Props) {
             </p>
 
             {/* DETALLES RÁPIDOS (MODIFICADO) */}
-            {/* Quitamos "Zona Central", Agregamos Motos */}
             <div className="flex justify-between gap-2 mb-6 text-xs font-semibold text-slate-600 bg-slate-50 p-3 rounded-lg border border-slate-100">
                 
                 <div className="flex items-center gap-1">
@@ -56,14 +51,13 @@ export default function ParkingDetailModal({ parqueo, onClose }: Props) {
                 <div className="h-4 w-px bg-gray-300"></div> {/* Separador visual */}
 
                 <div className="flex items-center gap-1 text-green-700">
-                    <Car size={14} /> {parqueo.autosLibres} Autos
+                    <Car size={14} /> {parqueo.capacidadAutos - parqueo.ocupadosAutos} Autos
                 </div>
 
                 <div className="h-4 w-px bg-gray-300"></div> {/* Separador visual */}
 
-                {/* AQUÍ ESTÁ LO NUEVO: MOTOS */}
                 <div className="flex items-center gap-1 text-blue-700">
-                    <Bike size={14} /> {parqueo.motosLibres} Motos
+                    <Bike size={14} /> {parqueo.capacidadMotos - parqueo.ocupadosMotos} Motos
                 </div>
             </div>
 

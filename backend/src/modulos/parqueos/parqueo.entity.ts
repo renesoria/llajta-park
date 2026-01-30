@@ -1,7 +1,7 @@
 import { Entity, PrimaryGeneratedColumn, Column, ManyToOne, JoinColumn } from 'typeorm';
 import { Usuario } from '../usuarios/usuario.entity';
 
-@Entity({ name: 'parkings' })
+@Entity({ name: 'parqueo' })
 export class Parqueo {
   @PrimaryGeneratedColumn('uuid')
   id: string;
@@ -19,15 +19,27 @@ export class Parqueo {
   longitud: number;
 
   @Column({ type: 'int' })
-  capacidadTotal: number;
+  capacidadAutos: number;
+
+  @Column({ type: 'int' })
+  capacidadMotos: number;
 
   @Column({ type: 'int', default: 0 })
-  ocupadosManual: number;
+  ocupadosAutos: number;
+
+  @Column({ type: 'int', default: 0 })
+  ocupadosMotos: number;
 
   @Column({ type: 'decimal', precision: 10, scale: 2 })
   precioHora: number;
 
-  @Column({ nullable: true })
+  @Column({ type: 'text', nullable: true })
+  descripcion: string;
+
+  @Column({ type: 'decimal', precision: 2, scale: 1, default: 0 })
+  rating: number;
+
+  @Column({ type: 'text', nullable: true })
   imagenUrl: string;
 
   @Column({ default: false })

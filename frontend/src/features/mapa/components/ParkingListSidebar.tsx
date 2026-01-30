@@ -7,37 +7,18 @@ interface Props {
   parqueos: Parqueo[];
   loading: boolean;
   onSelectParking: (p: Parqueo) => void;
+  filters: { autos: boolean; motos: boolean };
+  onFilterChange: (type: 'autos' | 'motos') => void;
 }
 
-export default function ParkingListSidebar({ parqueos, loading, onSelectParking }: Props) {
+export default function ParkingListSidebar({ parqueos, loading, onSelectParking, filters, onFilterChange }: Props) {
   
-  // ESTADO PARA EL MENÚ DE FILTROS
   const [showFilters, setShowFilters] = useState(false);
-  
-  // ESTADO PARA LOS CHECKBOXES
-  const [filters, setFilters] = useState({
-    autos: false,
-    motos: false
-  });
 
-  // LÓGICA DE FILTRADO
-  const filteredParqueos = parqueos.filter(p => {
-    // Si no hay nada marcado, mostramos todo
-    if (!filters.autos && !filters.motos) return true;
-
-    // Si "Solo Autos" está marcado, verificamos que tenga espacio
-    if (filters.autos && p.autosLibres === 0) return false;
-
-    // Si "Solo Motos" está marcado, verificamos que tenga espacio
-    if (filters.motos && p.motosLibres === 0) return false;
-
-    return true;
-  });
-
-  // Función para alternar los checkboxes
-  const toggleFilter = (type: 'autos' | 'motos') => {
-    setFilters(prev => ({ ...prev, [type]: !prev[type] }));
-  };
+  const handleClearFilters = () => {
+    if (filters.autos) onFilterChange('autos');
+    if (filters.motos) onFilterChange('motos');
+  }
 
   return (
     <div className="h-full flex flex-col bg-white border-r border-gray-300 relative">
@@ -45,7 +26,6 @@ export default function ParkingListSidebar({ parqueos, loading, onSelectParking 
       {/* HEADER DE LA LISTA */}
       <div className="p-4 border-b border-gray-200 shadow-sm bg-white z-20 flex items-center justify-between gap-2">
         
-        {/* Lado Izquierdo: Icono y Texto */}
         <div className="flex items-center gap-3">
             <div className="w-8 h-8 rounded-full bg-[#009FE3]/10 flex items-center justify-center flex-shrink-0">
                 <Car size={18} className="text-[#009FE3]" />
@@ -55,7 +35,6 @@ export default function ParkingListSidebar({ parqueos, loading, onSelectParking 
             </h2>
         </div>
 
-        {/* Lado Derecho: Botón de Filtro */}
         <div className="relative">
             <button 
                 onClick={() => setShowFilters(!showFilters)}
@@ -65,16 +44,14 @@ export default function ParkingListSidebar({ parqueos, loading, onSelectParking 
                 <Filter size={20} />
             </button>
 
-            {/* MENÚ FLOTANTE DE FILTROS */}
             {showFilters && (
                 <div className="absolute top-full right-0 mt-2 w-56 bg-white rounded-xl shadow-xl border border-gray-100 p-3 z-50 animate-in fade-in zoom-in-95 duration-100">
                     <h3 className="text-xs font-bold text-gray-400 uppercase tracking-wider mb-2 px-1">
                         Mostrar parqueos con:
                     </h3>
                     
-                    {/* Opción 1: Autos */}
                     <div 
-                        onClick={() => toggleFilter('autos')}
+                        onClick={() => onFilterChange('autos')}
                         className="flex items-center justify-between p-2 rounded-lg hover:bg-gray-50 cursor-pointer mb-1"
                     >
                         <span className="text-sm font-medium text-slate-700">Espacio para Autos</span>
@@ -83,9 +60,8 @@ export default function ParkingListSidebar({ parqueos, loading, onSelectParking 
                         </div>
                     </div>
 
-                    {/* Opción 2: Motos */}
                     <div 
-                        onClick={() => toggleFilter('motos')}
+                        onClick={() => onFilterChange('motos')}
                         className="flex items-center justify-between p-2 rounded-lg hover:bg-gray-50 cursor-pointer"
                     >
                         <span className="text-sm font-medium text-slate-700">Espacio para Motos</span>
@@ -94,10 +70,9 @@ export default function ParkingListSidebar({ parqueos, loading, onSelectParking 
                         </div>
                     </div>
                     
-                    {/* Botón limpiar (SOLO SI HAY FILTROS ACTIVOS) */}
                     {(filters.autos || filters.motos) && (
                         <div 
-                            onClick={() => setFilters({ autos: false, motos: false })}
+                            onClick={handleClearFilters}
                             className="mt-2 pt-2 border-t border-gray-100 text-center text-xs text-[#009FE3] font-bold cursor-pointer hover:underline"
                         >
                             Limpiar filtros
@@ -115,8 +90,8 @@ export default function ParkingListSidebar({ parqueos, loading, onSelectParking 
             <Loader2 className="animate-spin" />
             <span className="text-xs">Cargando...</span>
           </div>
-        ) : filteredParqueos.length > 0 ? (
-          filteredParqueos.map(p => (
+        ) : parqueos.length > 0 ? (
+          parqueos.map(p => (
             <ParkingCard 
                 key={p.id} 
                 parqueo={p} 
