@@ -1,7 +1,15 @@
-import { Entity, PrimaryGeneratedColumn, Column, ManyToOne, JoinColumn } from 'typeorm';
+import {
+  Entity,
+  PrimaryGeneratedColumn,
+  Column,
+  ManyToOne,
+  JoinColumn,
+  OneToMany,
+} from 'typeorm';
 import { Usuario } from '../usuarios/usuario.entity';
+import { Reserva } from '../reservas/reserva.entity';
 
-@Entity({ name: 'parqueo' })
+@Entity({ name: 'parkings' })
 export class Parqueo {
   @PrimaryGeneratedColumn('uuid')
   id: string;
@@ -18,37 +26,28 @@ export class Parqueo {
   @Column({ type: 'decimal', precision: 10, scale: 7 })
   longitud: number;
 
-  @Column({ type: 'int' })
-  capacidadAutos: number;
+  @Column('int')
+  capacidadTotal: number;
 
-  @Column({ type: 'int' })
-  capacidadMotos: number;
-
-  @Column({ type: 'int', default: 0 })
-  ocupadosAutos: number;
-
-  @Column({ type: 'int', default: 0 })
-  ocupadosMotos: number;
+  @Column('int', { default: 0 })
+  ocupadosManual: number;
 
   @Column({ type: 'decimal', precision: 10, scale: 2 })
   precioHora: number;
 
-  @Column({ type: 'text', nullable: true })
-  descripcion: string;
-
-  @Column({ type: 'decimal', precision: 2, scale: 1, default: 0 })
-  rating: number;
-
-  @Column({ type: 'text', nullable: true })
+  @Column({ nullable: true })
   imagenUrl: string;
 
   @Column({ default: false })
   esAprobado: boolean;
 
-  @ManyToOne(() => Usuario)
-  @JoinColumn({ name: 'duenoId', referencedColumnName: 'id' })
+  @ManyToOne(() => Usuario, (usuario) => usuario.parqueos)
+  @JoinColumn({ name: 'duenoId' })
   dueno: Usuario;
 
   @Column()
   duenoId: string;
+
+  @OneToMany(() => Reserva, (reserva) => reserva.parqueo)
+  reservas: Reserva[];
 }

@@ -1,5 +1,5 @@
 import { Parqueo } from '@/types';
-import { X, Star, Car, Bike } from 'lucide-react';
+import { X, Car, Bike } from 'lucide-react';
 import StarRating from './StarRating';
 
 interface Props {
@@ -51,13 +51,7 @@ export default function ParkingDetailModal({ parqueo, onClose }: Props) {
                 <div className="h-4 w-px bg-gray-300"></div> {/* Separador visual */}
 
                 <div className="flex items-center gap-1 text-green-700">
-                    <Car size={14} /> {parqueo.capacidadAutos - parqueo.ocupadosAutos} Autos
-                </div>
-
-                <div className="h-4 w-px bg-gray-300"></div> {/* Separador visual */}
-
-                <div className="flex items-center gap-1 text-blue-700">
-                    <Bike size={14} /> {parqueo.capacidadMotos - parqueo.ocupadosMotos} Motos
+                    <Car size={14} /> {parqueo.capacidadTotal - parqueo.ocupadosManual} Autos
                 </div>
             </div>
 

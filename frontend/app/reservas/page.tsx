@@ -34,7 +34,7 @@ export default function ReservasPage() {
              
              {/* Avatar Usuario */}
              <div className="w-10 h-10 rounded-full bg-pink-500 overflow-hidden border-2 border-white/50 shadow-lg">
-                <img src="https://api.dicebear.com/7.x/avataaars/svg?seed=Felix" alt="User" />
+                <Image src="https://api.dicebear.com/7.x/avataaars/svg?seed=Felix" alt="User" width={40} height={40} />
              </div>
         </div>
 
